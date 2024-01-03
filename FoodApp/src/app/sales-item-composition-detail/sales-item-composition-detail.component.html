@@ -1,0 +1,35 @@
+<!-- sales-item-composition-detail.component.html -->
+<div *ngIf="compositionWithDetails" class="composition-detail">
+  <h2>Detaljer for {{ compositionWithDetails.parentItem?.name }} Sammensætning</h2>
+  <div>
+    <p>Parent Item Name: {{ compositionWithDetails.parentItem?.name }}</p>
+    <img *ngIf="compositionWithDetails.parentItem?.imageUrl"
+         [src]="getFullImagePath(compositionWithDetails.parentItem?.imageUrl)"
+         alt="{{ compositionWithDetails.parentItem?.name }}">
+
+    <!-- Loop gennem hvert ChildItem -->
+    <div *ngFor="let childItem of compositionWithDetails.childItems">
+      <h3>{{ childItem.name }}</h3>
+      <img [src]="getFullImagePath(childItem.imageUrl)"
+           alt="{{ childItem.name }}">
+
+      <!-- Liste over tilgængelige ingredienser for hvert ChildItem -->
+      <div *ngIf="availableIngredients[childItem.id]">
+        <h4>Valgbare Ingredienser:</h4>
+        <ul>
+          <li *ngFor="let ingredient of availableIngredients[childItem.id]">
+            <input type="checkbox"
+                   [checked]="ingredient.count > 0"
+                   (change)="handleIngredientSelection(childItem.id, ingredient.ingredientId, ($event.target as HTMLInputElement).checked)">
+            {{ ingredient.ingredient.name }} ({{ ingredient.ingredient.ingredientPrice | currency }})
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Knappen for at tilføje sammensætningen til kurven -->
+    <button (click)="addToBasket()">Tilføj til Kurv</button>
+  </div>
+
+  <button (click)="goBack()">Tilbage til Liste</button>
+</div>

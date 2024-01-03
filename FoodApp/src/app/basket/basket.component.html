@@ -1,0 +1,43 @@
+<div *ngFor="let basketItem of basketItems" class="basket-item">
+  <!-- Visning for SalesItem -->
+  <div *ngIf="isSalesItem(basketItem.item)">
+    <h3>{{ basketItem.item.name }} - {{ basketItem.quantity }} stk.</h3>
+    <img [src]="getFullImagePath(basketItem.item.imageUrl)" alt="{{ basketItem.item.name }}">
+    
+
+    <!-- Liste over ingredienser, der kan tilføjes til SalesItem -->
+    <div *ngIf="availableIngredients[basketItem.item.id]">
+      <div *ngFor="let ingredientDetail of availableIngredients[basketItem.item.id]">
+        <img [src]="getFullImagePath(ingredientDetail.ingredient.imageUrl)" alt="{{ ingredientDetail.ingredient.name }}">
+        <button (click)="addIngredientToSalesItem(basketItem.item.id, ingredientDetail.ingredientId)">Tilføj</button>
+      </div>
+    </div>
+
+    <!-- Visning af tilføjede ingredienser til SalesItem -->
+    <div *ngFor="let ingredient of basketItem.item.ingredientSalesItems">
+      <div *ngIf="ingredient.ingredient">
+        <span>{{ ingredient.ingredient.name }} ({{ ingredient.count }} stk.)</span>
+        <button (click)="removeIngredientFromSalesItem(basketItem.item.id, ingredient.ingredientId)">Fjern</button>
+      </div>
+    </div>
+  </div>
+
+ 
+
+  <!-- Detailvisning af valgte ingredienser for et specifikt valgt item -->
+  <div *ngIf="selectedBasketItem">
+    <h3>Ingredienser for {{ getItemName(selectedBasketItem) }}</h3>
+    <ul>
+      <li *ngFor="let ingredientDetail of (isSalesItem(selectedBasketItem.item) ? availableIngredients[selectedBasketItem.item.id] : [])">
+        <img [src]="getFullImagePath(ingredientDetail.ingredient.imageUrl)" alt="{{ ingredientDetail.ingredient.name }}">
+        {{ ingredientDetail.ingredient.name }} - Pris: {{ ingredientDetail.ingredient.ingredientPrice }} kr
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Samlet pris og tøm kurv funktion -->
+<div class="total-price">
+  <h3>Total pris for kurv: {{ getTotalPrice() }} kr</h3>
+  <button (click)="clearBasket()">Tøm kurv</button>
+</div>

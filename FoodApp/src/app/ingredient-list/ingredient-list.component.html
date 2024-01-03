@@ -1,0 +1,11 @@
+<div class="ingredient-list-container">
+  <h2>Ingrediensliste</h2>
+  <ul>
+    <li *ngFor="let ingredient of ingredients">
+     <img [src]="getFullImagePath(ingredient.imageUrl)" alt="{{ ingredient.name }}" class="ingredient-image">
+      <span>{{ ingredient.name }} - Pris: {{ ingredient.ingredientPrice }} kr</span>
+      <!-- Tilføj yderligere ingrediensdetaljer her -->
+    </li>
+  </ul>
+</div>
+

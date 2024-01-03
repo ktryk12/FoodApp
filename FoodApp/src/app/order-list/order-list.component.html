@@ -1,0 +1,10 @@
+<div class="order-list-container">
+  <h2>Ordre Liste</h2>
+  <ul>
+    <li *ngFor="let order of orders">
+      Ordre ID: {{ order.id }} - Total: {{ order.total }} - Dato: {{ order.datetime | date:'medium' }}
+      <!-- Flere detaljer og handlinger efter behov -->
+    </li>
+  </ul>
+</div>
+

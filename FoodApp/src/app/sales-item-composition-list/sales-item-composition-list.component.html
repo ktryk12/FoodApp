@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>Menu</h1>
+  <div class="menu-container">
+    <!-- Loop through all sales items -->
+    <div *ngFor="let item of salesItems" class="menu-card">
+      <img [src]="getFullImagePath(item.imageUrl)" alt="{{ item.name }}">
+      <h2>{{ item.name }}</h2>
+      <p>Pris: {{ item.basePrice | currency }}</p>
+      <div class="actions">
+        <button (click)="addToBasketWrapper(item)">Tilføj til Kurv</button>
+        <!-- Button to view item contents, conditionally displayed if the item is a composite -->
+        <button *ngIf="isCompositeView" (click)="goToDetail(item.id)" class="view-content-button">Se Indhold</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

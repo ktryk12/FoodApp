@@ -1,0 +1,20 @@
+.shop-list {
+  /* Tilføj din styling */
+}
+
+.shop-item {
+  cursor: pointer;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+  .shop-item:hover {
+    background-color: #f0f0f0;
+  }
+
+.shop-info {
+  /* Tilføj styling for shop information */
+}

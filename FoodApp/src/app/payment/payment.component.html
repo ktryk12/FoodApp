@@ -1,0 +1,13 @@
+<div class="payment-container">
+  <h2>Betaling</h2>
+  <div>
+    <label for="amount">Beløb:</label>
+    <input type="number" id="amount" [(ngModel)]="amount">
+  </div>
+  <button (click)="processPayment()" [disabled]="isProcessing">Betal</button>
+
+  <div *ngIf="isProcessing" class="processing-indicator">
+    Behandler betalingen, vent venligst...
+  </div>
+</div>
+

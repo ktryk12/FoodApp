@@ -1,0 +1,16 @@
+<div class="home-container">
+  <h2>Vælg en Butik</h2>
+  <div class="shops-container">
+    <div *ngFor="let shop of shops" class="shop-card">
+      <h3>{{ shop.name }}</h3>
+      <p>{{ shop.location }}</p>
+      <button (click)="navigateToShop(shop.id)">Besøg Butik</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+

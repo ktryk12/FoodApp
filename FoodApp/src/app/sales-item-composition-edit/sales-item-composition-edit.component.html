@@ -1,0 +1,40 @@
+<div class="composition-edit">
+  <h2>Rediger Sammensætning</h2>
+  <form (ngSubmit)="saveComposition()">
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="isLoading">Loading...</div>
+
+    <div *ngIf="!isLoading">
+      <!-- Dropdown for at vælge Parent Item -->
+      <div class="form-group">
+        <label for="parentItem">Vælg Parent Item:</label>
+        <select id="parentItem" [(ngModel)]="composition.parentItemId" name="parentItemId">
+          <ng-container *ngFor="let item of salesItems">
+            <option *ngIf="item.isComposite" [ngValue]="item.id">{{ item.name }}</option>
+          </ng-container>
+        </select>
+      </div>
+
+      <!-- Visning af Parent Item Billede -->
+      <img *ngIf="composition.parentItemId" [src]="getFullImagePath(getSelectedSalesItem(composition.parentItemId)?.imageUrl)" alt="Valgt Parent Item">
+
+      <!-- Dropdown for at vælge Child Items -->
+      <div class="child-items">
+        <label for="childItems">Vælg Child Items:</label>
+        <select id="childItems" multiple [(ngModel)]="composition.childItemIds" name="childItems">
+          <ng-container *ngFor="let item of salesItems">
+            <option *ngIf="!item.isComposite" [ngValue]="item.id">{{ item.name }}</option>
+          </ng-container>
+        </select>
+      </div>
+
+      <!-- Visning af Child Items Billeder -->
+      <div *ngFor="let id of composition.childItemIds">
+        <img [src]="getFullImagePath(getSelectedSalesItem(id)?.imageUrl)" alt="Valgt Child Item">
+      </div>
+
+      <button type="submit">Gem Ændringer</button>
+    </div>
+  </form>
+</div>
+

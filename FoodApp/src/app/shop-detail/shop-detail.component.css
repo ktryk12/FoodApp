@@ -1,0 +1,32 @@
+.shop-details {
+  max-width: 100%; /* Sørg for, at shop-details ikke overskrider skærmbredden */
+  padding: 1rem; /* Tilføj padding for at give indholdet noget plads */
+}
+
+.combos-list, .product-list {
+  list-style: none; /* Fjerner listepunkter */
+  padding: 0; /* Fjerner standard padding fra lister */
+  margin: 0; /* Fjerner standard margin fra lister */
+}
+
+  .combos-list li, .product-list li {
+    margin-bottom: 1rem; /* Tilføjer lidt plads mellem listeelementerne */
+  }
+
+.image-container {
+  width: 100%; /* Sætter en maksimal bredde for billedcontaineren */
+  overflow: hidden; /* Forhindrer billeder i at gå udenfor containeren */
+}
+
+  .image-container img {
+    max-width: 100%; /* Gør billederne responsive */
+    height: auto; /* Bevarer billedernes aspektforhold */
+  }
+
+@media (max-width: 768px) {
+  .combos-list h2, .product-list h2 {
+    font-size: 1.5rem; /* Reducerer skriftstørrelsen på mindre skærme */
+  }
+
+}
+

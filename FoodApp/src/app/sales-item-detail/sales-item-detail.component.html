@@ -1,0 +1,21 @@
+<div *ngIf="salesItem" class="sales-item-detail">
+  <h2>{{ salesItem.name }}</h2>
+  <img [src]="getFullImagePath(salesItem.imageUrl)" alt="{{ salesItem.name }}">
+  <p>Pris: {{ salesItem.basePrice | currency }}</p>
+
+  <h3>Vælg Ingredienser:</h3>
+  <div *ngFor="let ingredient of ingredientOptions">
+    <span>{{ ingredient.ingredient?.name }}</span>
+    <div>
+      <button (click)="removeIngredient(ingredient.ingredientId)" [disabled]="ingredient.count <= ingredient.min">-</button>
+      <span>{{ ingredient.count }}</span>
+      <button (click)="addIngredient(ingredient.ingredientId)" [disabled]="ingredient.count >= ingredient.max">+</button>
+    </div>
+  </div>
+
+  <button (click)="addToBasket()">Tilføj til Kurv</button>
+</div>
+
+<div *ngIf="!salesItem" class="no-sales-item">
+  <p>Ingen vare fundet.</p>
+</div>

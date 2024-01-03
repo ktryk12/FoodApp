@@ -1,0 +1,14 @@
+<div class="sales-item-list-container">
+  <div *ngFor="let item of salesItems" class="sales-item-card">
+    <div class="sales-item-image">
+      <img [src]="getFullImagePath(item.imageUrl)" alt="{{ item.name }}" />
+    </div>
+    <div class="sales-item-details">
+      <h3>{{ item.name }}</h3>
+       <div class="sales-item-price">
+        Price: {{ item.basePrice | currency }}
+      </div>
+      <button (click)="addToBasket(item)">Add to Basket</button>
+    </div>
+  </div>
+</div>

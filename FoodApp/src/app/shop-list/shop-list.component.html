@@ -1,0 +1,13 @@
+<div class="shop-list">
+  <h2>Vælg Butik</h2>
+  <ul>
+    <li *ngFor="let shop of shops" class="shop-item" (click)="navigateToShopDetails(shop.id)">
+      <div class="shop-info">
+        <h3>{{ shop.name }}</h3>
+        <p>{{ shop.location }}</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+

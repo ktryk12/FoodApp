@@ -1,0 +1,10 @@
+<div class="discount-list-container">
+  <h2>Rabatliste</h2>
+  <ul>
+    <li *ngFor="let discount of discounts">
+      Rabat ID: {{ discount.id }}, Rabatprocent: {{ discount.rate }}%,
+      Produktgruppe ID: {{ discount.productGroupId }}, Kunde Gruppe ID: {{ discount.customerGroupId }}
+    </li>
+  </ul>
+</div>
+

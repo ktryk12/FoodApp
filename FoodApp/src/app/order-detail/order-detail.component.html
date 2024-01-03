@@ -1,0 +1,16 @@
+<div *ngIf="order" class="order-detail-container">
+  <h2>Ordre Detaljer: {{ order.id }}</h2>
+  <p><strong>Total: </strong>{{ order.total }} kr</p>
+  <p><strong>Dato: </strong>{{ order.datetime | date:'medium' }}</p>
+  <p><strong>Butik ID: </strong>{{ order.shopId }}</p>
+  <!-- Du kan tilføje yderligere felter her -->
+  <ul *ngIf="orderlines.length > 0">
+    <li *ngFor="let orderline of orderlines">
+      Antal: {{ orderline.quantity }},
+      Pris: {{ orderline.orderlinePrice }} kr
+      <!-- Yderligere detaljer om orderline -->
+    </li>
+  </ul>
+  <p *ngIf="orderlines.length === 0">Ingen orderlines fundet for denne ordre.</p>
+</div>
+

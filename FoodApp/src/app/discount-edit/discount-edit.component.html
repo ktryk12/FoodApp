@@ -1,0 +1,19 @@
+<div class="discount-edit-container">
+  <h2>{{ isEdit ? 'Rediger Rabat' : 'Opret Rabat' }}</h2>
+  <form (submit)="saveDiscount()">
+    <div>
+      <label for="rate">Rabatprocent:</label>
+      <input type="number" id="rate" [(ngModel)]="discount.rate" name="rate">
+    </div>
+    <div>
+      <label for="productGroupId">Produktgruppe ID:</label>
+      <input type="number" id="productGroupId" [(ngModel)]="discount.productGroupId" name="productGroupId">
+    </div>
+    <div>
+      <label for="customerGroupId">Kunde Gruppe ID:</label>
+      <input type="number" id="customerGroupId" [(ngModel)]="discount.customerGroupId" name="customerGroupId">
+    </div>
+    <button type="submit">{{ isEdit ? 'Opdater' : 'Opret' }}</button>
+  </form>
+</div>
+

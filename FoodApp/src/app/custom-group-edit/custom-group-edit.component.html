@@ -1,0 +1,12 @@
+<div class="custom-group-edit-container">
+  <h2>{{ isEdit ? 'Rediger Kundegruppe' : 'Opret Kundegruppe' }}</h2>
+  <form (submit)="saveCustomerGroup()">
+    <div>
+      <label for="name">Navn:</label>
+      <input type="text" id="name" [(ngModel)]="customerGroup.name" name="name">
+    </div>
+    <!-- Tilføj yderligere felter eller knapper -->
+    <button type="submit">{{ isEdit ? 'Opdater' : 'Opret' }}</button>
+  </form>
+</div>
+

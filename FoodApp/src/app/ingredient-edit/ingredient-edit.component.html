@@ -1,0 +1,21 @@
+<div class="ingredient-edit-container">
+  <h2>{{ isEdit ? 'Rediger Ingrediens' : 'Opret Ingrediens' }}</h2>
+  <form (submit)="onSubmit()">
+    <div>
+      <label for="name">Navn:</label>
+      <input type="text" id="name" [(ngModel)]="ingredient.name" name="name">
+    </div>
+    <div>
+      <label for="ingredientPrice">Pris:</label>
+      <input type="number" id="ingredientPrice" [(ngModel)]="ingredient.ingredientPrice" name="ingredientPrice">
+    </div>
+    <div>
+      <label for="imageFile">Billede:</label>
+      <input type="file" id="imageFile" (change)="onFileSelected($event)">
+      <img *ngIf="ingredient.imageUrl" [src]="ingredient.imageUrl" alt="Ingrediensbillede">
+    </div>
+    <!-- Tilføj yderligere felter her -->
+    <button type="submit">{{ isEdit ? 'Opdater' : 'Opret' }}</button>
+  </form>
+</div>
+

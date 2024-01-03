@@ -1,0 +1,11 @@
+.payment-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.processing-indicator {
+  margin-top: 20px;
+  color: #007bff;
+}

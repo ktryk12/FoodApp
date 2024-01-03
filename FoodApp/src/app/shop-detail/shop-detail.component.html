@@ -1,0 +1,17 @@
+<div *ngIf="shop" class="shop-details">
+  <h2>{{ shop.name }}</h2>
+  
+
+  <h3>Salgsartikler</h3>
+  <ul>
+    <li *ngFor="let item of salesItems">{{ item.name }}</li>
+  </ul>
+
+  <h3>Sammensætninger</h3>
+  <ul>
+    <li *ngFor="let comp of compositions">
+      {{ comp.parentItemId }} - {{ comp.childItemId }}
+      <!-- Tilføj yderligere detaljer her -->
+    </li>
+  </ul>
+</div>

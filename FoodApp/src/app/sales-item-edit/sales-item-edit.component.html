@@ -1,0 +1,45 @@
+<div class="sales-item-edit-container">
+  <h2>{{ salesItem.id ? 'Rediger Sales Item' : 'Opret Sales Item' }}</h2>
+
+  <form (ngSubmit)="saveSalesItem()" #salesItemForm="ngForm">
+    <!-- Produkt Navn -->
+    <div class="form-group">
+      <label for="Name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="salesItem.name" name="name" required>
+    </div>
+
+    <!-- Produkt Nummer -->
+    <div class="form-group">
+      <label for="productNumber">Produktnummer:</label>
+      <input type="text" id="productNumber" [(ngModel)]="salesItem.productNumber" name="productNumber" required>
+    </div>
+
+    <!-- Basispris -->
+    <div class="form-group">
+      <label for="basePrice">Basispris:</label>
+      <input type="number" id="basePrice" [(ngModel)]="salesItem.basePrice" name="basePrice" required>
+    </div>
+
+    <!-- ProductGruppe -->
+    <div class="form-group">
+      <label for="salesItemGroup">ProduktGruppe:</label>
+      <input type="text" id="salesItemGroup" [(ngModel)]="salesItem.salesItemGroup" name="salesItemGroup" required>
+    </div>
+
+    <!-- Kategori -->
+    <div class="form-group">
+      <label for="category">Kategori:</label>
+      <input type="text" id="category" [(ngModel)]="salesItem.category" name="category" required>
+    </div>
+
+    <!-- Billede Upload -->
+    <div class="form-group">
+      <label for="imageUpload">Billede:</label>
+      <input type="file" id="imageUpload" (change)="onFileSelected($event)" name="imageUpload">
+      <img *ngIf="salesItem.imageUrl" [src]="salesItem.imageUrl" alt="Sales Item Image" class="sales-item-image-preview">
+    </div>
+
+    <!-- Gem Knap -->
+    <button type="submit" class="btn btn-primary">Gem</button>
+  </form>
+</div>
