@@ -20,7 +20,7 @@
           <li *ngFor="let ingredient of availableIngredients[childItem.id]">
             <input type="checkbox"
                    [checked]="ingredient.count > 0"
-                   (change)="handleIngredientSelection(childItem.id, ingredient.ingredientId, ($event.target as HTMLInputElement).checked)">
+                   (change)="ingredient.count > 0 ? removeIngredientFromChildItem(childItem.id, ingredient.ingredientId) : addIngredientToChildItem(childItem.id, ingredient.ingredientId)">
             {{ ingredient.ingredient.name }} ({{ ingredient.ingredient.ingredientPrice | currency }})
           </li>
         </ul>

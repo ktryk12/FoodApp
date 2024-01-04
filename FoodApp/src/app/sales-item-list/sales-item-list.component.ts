@@ -19,6 +19,7 @@ export class SalesItemListComponent implements OnInit {
   ngOnInit(): void {
     this.salesItemService.getAllSalesItems().subscribe(
       (data) => {
+        console.log(data); 
         this.salesItems = data;
       },
       (error) => {

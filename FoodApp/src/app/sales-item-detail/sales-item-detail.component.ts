@@ -6,7 +6,6 @@ import { IngredientSalesItem } from '../dtos/ingredient-sales-item.dto';
 import { IngredientSalesItemDetails } from '../dtos/ingredient-sales-item-details.dto';
 import { SalesItem } from '../dtos/sales-item.dto';
 import { BasketService } from '../services/basket.service';
-import { SalesItemCompositionManager } from '../dtos/sales-item-composition-manager.dto';
 import { BasketItem } from '../dtos/basket-item.dto';
 import { IngredientService } from '../services/ingredient.service';
 
@@ -33,6 +32,7 @@ export class SalesItemDetailComponent implements OnInit {
     const salesItemId = this.route.snapshot.params['id'];
     if (salesItemId) {
       this.salesItemService.getSalesItemById(+salesItemId).subscribe(data => {
+        console.log(data); // Tilføj denne linje for at se data
         this.salesItem = data;
         this.loadIngredientOptions(+salesItemId);
       });
