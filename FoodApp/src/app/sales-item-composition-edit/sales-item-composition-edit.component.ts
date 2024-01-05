@@ -42,10 +42,12 @@ export class SalesItemCompositionEditComponent implements OnInit {
   getFullImagePath(relativePath: string | undefined): string {
     return relativePath ? `https://localhost:7218${relativePath}` : '';
   }
+  backToAdmin() {
+    this.router.navigate(['/admin']);
+  }
 
   saveComposition(): void {
-    // Assuming compositionService is properly implemented to handle the saving process
-    // Replace with actual logic to save your composition
+   
     console.log('Saving composition:', this.composition);
     // Navigate to the list view after save
     this.router.navigate(['/sales-item-composition-list']);

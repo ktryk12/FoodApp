@@ -16,6 +16,7 @@ export class ShopDetailComponent implements OnInit {
   shop: Shop | null = null;
   salesItems: SalesItem[] = [];
   compositions: SalesItemComposition[] = [];
+  category: string = 'defaultCategory';
 
   constructor(
     private route: ActivatedRoute,
@@ -33,20 +34,29 @@ export class ShopDetailComponent implements OnInit {
     this.shopService.getShop(shopId).subscribe({
       next: shop => {
         this.shop = shop;
-        this.loadSalesItems(shop.id);
+        this.loadSalesItems(this.category);
         this.loadCompositions(shop.id);
       },
       error: err => console.error('Error loading shop:', err)
     });
   }
 
-  private loadSalesItems(shopId: number): void {
-    // Implementer logikken til at indlæse salgsartikler
-    // Eksempel: this.salesItemService.getSalesItemsByShop(shopId).subscribe(...)
+  
+     private loadSalesItems(category: string): void {
+    this.salesItemService.getSalesItemsByCategory(category).subscribe({
+      next: items => {
+        this.salesItems = items;
+        console.log('Sales items loaded for category', category, ':', items);
+      },
+      error: err => console.error('Error loading sales items for category', category, ':', err)
+    });
   }
+
+
+
 
   private loadCompositions(shopId: number): void {
     // Implementer logikken til at indlæse sammensætninger
-    // Eksempel: this.compositionService.getCompositionsByShop(shopId).subscribe(...)
+   
   }
 }

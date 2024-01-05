@@ -55,6 +55,9 @@ export class SalesItemEditComponent implements OnInit {
       this.selectedFile = file;
     }
   }
+  backToAdmin() {
+    this.router.navigate(['/admin']);
+  }
   saveSalesItem(): void {
     if (this.salesItem) {
       const formData = new FormData();
@@ -80,5 +83,6 @@ export class SalesItemEditComponent implements OnInit {
         });
       }
     }
+
   }
 }

@@ -53,5 +53,9 @@ export class IngredientEditComponent implements OnInit {
         this.router.navigate(['/ingredients']);
       });
     }
+   
+  }
+  backToAdmin() {
+    this.router.navigate(['/admin']);
   }
 }

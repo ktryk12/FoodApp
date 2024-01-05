@@ -37,7 +37,7 @@ const routes: Routes = [
   { path: 'order-detail/:id', component: OrderDetailComponent },
   { path: 'sales-item-list', component: SalesItemListComponent },
   { path: 'sales-item-detail/:id', component: SalesItemDetailComponent},
-  { path: 'sales-item-edit/:id', component: SalesItemEditComponent, }, // Kan også være for oprettelse uden ID
+  { path: 'sales-item-edit/:id', component: SalesItemEditComponent, }, 
   { path: 'sales-item-create', component: SalesItemEditComponent, },
   { path: 'sales-item-composition-list', component: SalesItemCompositionListComponent },
   { path: 'sales-item-composition-detail/:parentItemId', component: SalesItemCompositionDetailComponent },
@@ -47,13 +47,13 @@ const routes: Routes = [
   { path: 'shop-detail/:id', component: ShopDetailComponent },
   { path: 'shop-create', component: ShopListComponent },
   { path: 'custom-group-list', component: CustomGroupListComponent },
-  { path: 'custom-group-edit/:id', component: CustomGroupEditComponent,  }, // Kan også være for oprettelse uden ID
+  { path: 'custom-group-edit/:id', component: CustomGroupEditComponent,  }, 
   { path: 'custom-group-create', component: CustomGroupEditComponent, },
   { path: 'discount-list', component: DiscountListComponent },
-  { path: 'discount-edit/:id', component: DiscountEditComponent, }, // Kan også være for oprettelse uden ID
+  { path: 'discount-edit/:id', component: DiscountEditComponent, }, 
   { path: 'discount-create', component: DiscountEditComponent, },
   { path: 'ingredient-list', component: IngredientListComponent },
-  { path: 'ingredient-edit/:id', component: IngredientEditComponent }, // Kan også være for oprettelse uden ID
+  { path: 'ingredient-edit/:id', component: IngredientEditComponent }, 
   { path: 'ingredient-create', component: IngredientEditComponent },
   { path: 'payment', component: PaymentComponent },
   { path: 'payment-success', component: PaymentSuccessComponent },

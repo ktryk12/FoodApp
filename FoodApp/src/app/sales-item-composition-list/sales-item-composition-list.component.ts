@@ -1,4 +1,4 @@
-// I din Angular Component
+// I  Angular Component
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { SalesItemService } from '../services/sales-item.service';
@@ -57,7 +57,7 @@ export class SalesItemCompositionListComponent implements OnInit {
     const basketItem: BasketItem = {
       item: item,
       quantity: quantity,
-      customizations: [], // Eller de faktiske tilpasninger, hvis de er tilgængelige
+      customizations: [], 
       totalPrice: 0 // Dette vil blive beregnet senere
     };
     this.basketService.addToBasket(basketItem);

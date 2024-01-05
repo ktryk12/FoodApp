@@ -1,4 +1,6 @@
 <div class="home-container">
+  <!-- Salgsitems -->
+  <app-sales-item-list></app-sales-item-list>
   <h2>Vælg en Butik</h2>
   <div class="shops-container">
     <div *ngFor="let shop of shops" class="shop-card">
@@ -6,6 +8,10 @@
       <p>{{ shop.location }}</p>
       <button (click)="navigateToShop(shop.id)">Besøg Butik</button>
     </div>
+
+
+    <!-- Salgsitem-sammensætninger -->
+    <app-sales-item-composition-list></app-sales-item-composition-list>
   </div>
 </div>
 

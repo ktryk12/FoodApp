@@ -5,7 +5,6 @@ import { SalesItem } from '../dtos/sales-item.dto';
 import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
 import { SalesItemCompositionWithDetails } from '../dtos/sales-item-composition-with-details.dto';
 import { IngredientSalesItem } from '../dtos/ingredient-sales-item.dto';
-import { PricingService } from './pricing.service';
 import { IngredientSalesItemDetails } from '../dtos/ingredient-sales-item-details.dto';
 import { IngredientSalesItemService } from '../services/ingredient-sales-item.service';
 import { catchError, tap } from 'rxjs/operators';
@@ -30,7 +29,7 @@ export class BasketService {
   private compositionDetailsSource = new BehaviorSubject<SalesItemCompositionWithDetails | null>(null);
   compositionDetails$ = this.compositionDetailsSource.asObservable();
   constructor(
-    private pricingService: PricingService,
+    
     private ingredientSalesItemService: IngredientSalesItemService,
     private ingredientService: IngredientService,
     private salesItemCompositionService: SalesItemCompositionService
