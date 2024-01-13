@@ -1,50 +1,49 @@
 <div class="basket-container">
   <h2>Din Kurv</h2>
-  <div *ngIf="basketItems.length === 0">
-    Din kurv er tom.
-  </div>
+  <div *ngIf="basketItems.length === 0">Din kurv er tom.</div>
 
   <div *ngFor="let basketItem of basketItems" class="basket-item">
     <div class="item-details">
-      <!-- Visning for SalesItem -->
-      <ng-container *ngIf="isSalesItem(basketItem.item)">
-        <img [src]="getFullImagePath(basketItem.item.imageUrl)" alt="{{ basketItem.item.name }}">
-        <div class="item-info">
-          <h3>{{ basketItem.item.name }}</h3>
-          <p>Mængde: {{ basketItem.quantity }}</p>
-          <p>Pris: {{ basketItem.totalPrice | currency }}</p>
-        </div>
-      </ng-container>
-
-      <!-- Visning for SalesItemComposition -->
-      <ng-container *ngIf="isSalesItemComposition(basketItem.item)">
-        <img [src]="getFullImagePath(basketItem.item.parentItem?.imageUrl)" alt="{{ basketItem.item.parentItem?.name }}">
-        <div class="item-info">
-          <h3>{{ basketItem.item.parentItem?.name }}</h3>
-          <p>Mængde: {{ basketItem.quantity }}</p>
-          <p>Pris: {{ basketItem.totalPrice | currency }}</p>
-        </div>
-      </ng-container>
+      <img [src]="getFullImagePath(isSalesItem(basketItem.item) ? basketItem.item.imageUrl : basketItem.item.parentItem?.imageUrl)" alt="{{ getItemName(basketItem) }}">
+      <div class="item-info">
+        <h3>{{ getItemName(basketItem) }}</h3>
+        <p>Mængde: {{ basketItem.quantity }}</p>
+        <p>Pris: {{ basketItem.totalPrice | currency }}</p>
+      </div>
     </div>
 
-    <div *ngIf="basketItem.customizations" class="customizations">
+    <!-- Tilpasninger for enkelte varer (SalesItem) -->
+    <div *ngIf="isSalesItem(basketItem.item)" class="customizations">
       <h4>Tilpasninger:</h4>
       <ul>
         <li *ngFor="let customization of basketItem.customizations">
-          {{ customization.ingredient?.name }} ({{ customization.count }})
-
-          <!-- Kun for SalesItem -->
-          <ng-container *ngIf="isSalesItem(basketItem.item)">
+          <span *ngIf="customization.ingredient">{{ customization.ingredient.name }} ({{ customization.count }})</span>
+          <div class="ingredient-controls">
             <button (click)="addIngredient(basketItem.item.id, customization.ingredientId)">+</button>
             <button (click)="removeIngredient(basketItem.item.id, customization.ingredientId)">-</button>
-          </ng-container>
+          </div>
         </li>
       </ul>
     </div>
 
-    <button (click)="onSelectItem(basketItem)">Rediger</button>
-  </div>
+    <!-- Tilpasninger for sammensatte menuer (SalesItemComposition) -->
+    <div *ngIf="isSalesItemComposition(basketItem.item)">
+      <h4>Menu Tilpasninger:</h4>
+      <div *ngFor="let childItem of basketItem.item.childItems">
+        <h5>{{ childItem.name }}</h5>
+        <ul>
+          <li *ngFor="let ingredient of availableIngredients[childItem.id]">
+            <span>{{ingredient.ingredient.name }} ({{ ingredient.count }})</span>
+            <div class="ingredient-controls">
+              <button (click)="onAddIngredientToChild(childItem.id, ingredient.ingredientId)">+</button>
+              <button (click)="onRemoveIngredientFromChild(childItem.id, ingredient.ingredientId)">-</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
 
+  </div>
   <div class="total-price">
     <p>Total Pris: {{ getTotalPrice() | currency }}</p>
     <button (click)="clearBasket()">Tøm Kurv</button>

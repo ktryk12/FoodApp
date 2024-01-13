@@ -1,11 +1,33 @@
+<div class="sales-item-selector">
+  <h3>Vælg Produkt</h3>
+  <select [(ngModel)]="selectedSalesItem">
+    <option *ngFor="let item of salesItems" [ngValue]="item">{{ item.name }}</option>
+  </select>
+</div>
+
 <div class="ingredient-list-container">
   <h2>Ingrediensliste</h2>
   <ul>
-    <li *ngFor="let ingredient of ingredients">
-     <img [src]="getFullImagePath(ingredient.imageUrl)" alt="{{ ingredient.name }}" class="ingredient-image">
-      <span>{{ ingredient.name }} - Pris: {{ ingredient.ingredientPrice }} kr</span>
-      <!-- Tilføj yderligere ingrediensdetaljer her -->
+    <li *ngFor="let selection of ingredientSelections">
+      <img [src]="getFullImagePath(selection.ingredient.imageUrl)" alt="{{ selection.ingredient.name }}" class="ingredient-image">
+      <span>{{ selection.ingredient.name }} - Pris: {{ selection.ingredient.ingredientPrice }} kr</span>
+
+      <div class="ingredient-controls">
+        <!-- Navne/Etiketter for inputfelter -->
+        <label>
+          Min:
+          <input type="number" placeholder="Min" [(ngModel)]="selection.min">
+        </label>
+        <label>
+          Max:
+          <input type="number" placeholder="Max" [(ngModel)]="selection.max">
+        </label>
+        <label>
+          Antal:
+          <input type="number" placeholder="Count" [(ngModel)]="selection.count">
+        </label>
+        <button (click)="addIngredientToSalesItem(selection)">Tilføj til Produkt</button>
+      </div>
     </li>
   </ul>
 </div>
-

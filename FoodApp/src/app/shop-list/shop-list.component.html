@@ -1,13 +1,17 @@
 <div class="shop-list">
-  <h2>Vælg Butik</h2>
-  <ul>
-    <li *ngFor="let shop of shops" class="shop-item" (click)="navigateToShopDetails(shop.id)">
-      <div class="shop-info">
+  <h2>Shops</h2>
+  <div class="shop-container">
+    <div *ngFor="let shop of shops" class="shop-card">
+      <div class="shop-image">
+        <img [src]="getFullImagePath(shop.imageUrl)" alt="{{ shop.name }}" />
+      </div>>
+      <div class="shop-details">
         <h3>{{ shop.name }}</h3>
         <p>{{ shop.location }}</p>
+        <!-- Andre detaljer -->
+        <a [routerLink]="['/shop-detail', shop.id]" class="details-link">Vælg Shop</a>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </div>
-
 

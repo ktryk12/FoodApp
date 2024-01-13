@@ -19,6 +19,7 @@ export class SalesItemDetailComponent implements OnInit {
   salesItem: SalesItem | null = null;
   ingredientOptions: IngredientSalesItem[] = [];
 
+
   constructor(
     private salesItemService: SalesItemService,
     private ingredientSalesItemService: IngredientSalesItemService,
@@ -42,12 +43,18 @@ export class SalesItemDetailComponent implements OnInit {
   loadIngredientOptions(salesItemId: number): void {
     this.ingredientService.getIngredientsWithDetailsBySalesItemId(salesItemId)
       .subscribe(
-        ingredients => {
-          this.ingredientOptions = ingredients;
+        ingredientSalesItems => {
+          this.ingredientOptions = ingredientSalesItems.map(ingredientSalesItem => ({
+            ...ingredientSalesItem,
+            // Bruger direkte 'count' værdien fra databasen
+            count: ingredientSalesItem.standardCount
+          }));
         },
         error => console.error('Error loading ingredients', error)
       );
   }
+
+
 
   addIngredient(ingredientId: number): void {
     let ingredient = this.ingredientOptions.find(ing => ing.ingredientId === ingredientId);
@@ -55,15 +62,16 @@ export class SalesItemDetailComponent implements OnInit {
       ingredient.count++;
     }
   }
+  getFullImagePath(relativePath: string | undefined): string {
+    return relativePath ? `https://localhost:7218${relativePath}` : '';
+  }
 
   removeIngredient(ingredientId: number): void {
     let ingredient = this.ingredientOptions.find(ing => ing.ingredientId === ingredientId);
-    if (ingredient && ingredient.count > ingredient.min) {
+    if (ingredient) {
+      // Tillad at reducere antallet under min, eventuelt ned til 0 eller negativ
       ingredient.count--;
     }
-  }
-  getFullImagePath(relativePath: string | undefined): string {
-    return relativePath ? `https://localhost:7218${relativePath}` : '';
   }
   addToBasket(): void {
     if (this.salesItem) {

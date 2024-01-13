@@ -17,6 +17,7 @@ import { DiscountEditComponent } from './discount-edit/discount-edit.component';
 import { DiscountListComponent } from './discount-list/discount-list.component';
 import { IngredientEditComponent } from './ingredient-edit/ingredient-edit.component';
 import { IngredientListComponent } from './ingredient-list/ingredient-list.component';
+import { ShopEditComponent } from './shop-edit/shop-edit.component';
 import { ShopDetailComponent } from './shop-detail/shop-detail.component';
 import { ShopListComponent } from './shop-list/shop-list.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
@@ -54,6 +55,7 @@ import { BasketComponent } from './basket/basket.component';
     IngredientListComponent,
     ShopDetailComponent,
     ShopListComponent,
+    ShopEditComponent,
     OrderDetailComponent,
     OrderListComponent,
     SalesItemEditComponent,

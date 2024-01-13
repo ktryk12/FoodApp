@@ -52,12 +52,23 @@ export class SalesItemCompositionDetailComponent implements OnInit {
     compositionDetails.childItems?.forEach(childItem => {
       this.ingredientService.getIngredientsWithDetailsBySalesItemId(childItem.id).subscribe(
         ingredients => {
-          this.availableIngredients[childItem.id] = ingredients;
+          // Tilføjer en 'count' egenskab til hver ingrediens i listen
+          this.availableIngredients[childItem.id] = ingredients.map(ingredient => ({
+            ...ingredient, // Kopierer alle eksisterende egenskaber fra den oprindelige ingrediens
+            count: 0 // Tilføjer en ny egenskab 'count' og initialiserer den til 0
+          }));
         },
         error => console.error(`Error loading ingredients for childItem ${childItem.id}`, error)
       );
     });
   }
+  toggleIngredient(childItemId: number, ingredientId: number): void {
+    const ingredient = this.availableIngredients[childItemId].find(ing => ing.ingredientId === ingredientId);
+    if (ingredient) {
+      ingredient.count = ingredient.count > 0 ? 0 : 1;
+    }
+  }
+
   addIngredientToChildItem(childItemId: number, ingredientId: number): void {
     let ingredientDetail = this.availableIngredients[childItemId]?.find(ing => ing.ingredientId === ingredientId);
     if (ingredientDetail && ingredientDetail.count < ingredientDetail.max) {
@@ -84,6 +95,7 @@ export class SalesItemCompositionDetailComponent implements OnInit {
           count: ing.count, // Bevarer den valgte count værdi
           min: ing.min,     // Bevarer den oprindelige min værdi
           max: ing.max,     // Bevarer den oprindelige max værdi
+          standardCount: ing.standardCount,
           ingredient: ing.ingredient
         })));
       });

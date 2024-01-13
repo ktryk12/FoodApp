@@ -13,6 +13,7 @@ export class ShopListComponent implements OnInit {
 
   constructor(private shopService: ShopService, private router: Router) { }
 
+ 
 
   ngOnInit() {
     this.shopService.getAllShops().subscribe(data => {
@@ -22,5 +23,9 @@ export class ShopListComponent implements OnInit {
   navigateToShopDetails(shopId: number): void {
     this.router.navigate(['/shop-detail', shopId]);
   }
+  getFullImagePath(relativePath: string | undefined): string {
+    return relativePath ? `https://localhost:7218${relativePath}` : '';
+  }
+
 }
 

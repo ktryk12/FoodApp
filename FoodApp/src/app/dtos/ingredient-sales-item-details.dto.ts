@@ -5,6 +5,7 @@ export interface IngredientSalesItemDetails {
   min: number;
   max: number;
   count: number;
+  standardCount: number;
   ingredient: Ingredient;
  
 }

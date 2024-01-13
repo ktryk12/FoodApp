@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ShopService } from '../services/shop.service';
 import { SalesItemService } from '../services/sales-item.service';
-import { SalesItemCompositionService } from '../services/sales-item-composition.service';
+import { BasketService } from '../services/basket.service';
 import { Shop } from '../dtos/shop.dto';
 import { SalesItem } from '../dtos/sales-item.dto';
-import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-shop-detail',
@@ -15,14 +15,12 @@ import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
 export class ShopDetailComponent implements OnInit {
   shop: Shop | null = null;
   salesItems: SalesItem[] = [];
-  compositions: SalesItemComposition[] = [];
-  category: string = 'defaultCategory';
 
   constructor(
     private route: ActivatedRoute,
     private shopService: ShopService,
     private salesItemService: SalesItemService,
-    private compositionService: SalesItemCompositionService
+    private basketService: BasketService
   ) { }
 
   ngOnInit(): void {
@@ -34,29 +32,38 @@ export class ShopDetailComponent implements OnInit {
     this.shopService.getShop(shopId).subscribe({
       next: shop => {
         this.shop = shop;
-        this.loadSalesItems(this.category);
-        this.loadCompositions(shop.id);
+        this.loadSalesItemsForShop(shop.id);
       },
       error: err => console.error('Error loading shop:', err)
     });
   }
 
-  
-     private loadSalesItems(category: string): void {
-    this.salesItemService.getSalesItemsByCategory(category).subscribe({
-      next: items => {
-        this.salesItems = items;
-        console.log('Sales items loaded for category', category, ':', items);
+  private loadSalesItemsForShop(shopId: number): void {
+    this.shopService.getSalesItemIdsByShopId(shopId).subscribe({
+      next: salesItemIds => {
+        forkJoin(salesItemIds.map(id => this.salesItemService.getSalesItemById(id)))
+          .subscribe(salesItems => {
+            this.salesItems = salesItems;
+            console.log('Sales Items loaded:', this.salesItems);
+          },
+            error => console.error('Error loading sales items:', error)
+          );
       },
-      error: err => console.error('Error loading sales items for category', category, ':', err)
+      error: err => console.error('Error loading sales item IDs for shop:', err)
     });
   }
 
+  getFullImagePath(relativePath: string | undefined): string {
+    return relativePath ? `https://localhost:7218${relativePath}` : '';
+  }
 
+  addSalesItemToBasket(salesItem: SalesItem): void {
+    const basketItem = {
+      item: salesItem,
+      quantity: 1,
+      totalPrice: salesItem.basePrice
+    };
 
-
-  private loadCompositions(shopId: number): void {
-    // Implementer logikken til at indlæse sammensætninger
-   
+    this.basketService.addToBasket(basketItem);
   }
 }

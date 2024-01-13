@@ -12,7 +12,7 @@ import {SalesItemDetailComponent } from './sales-item-detail/sales-item-detail.c
 import { SalesItemEditComponent } from './sales-item-edit/sales-item-edit.component';
 import { SalesItemCompositionListComponent } from './sales-item-composition-list/sales-item-composition-list.component';
 import { SalesItemCompositionDetailComponent } from './sales-item-composition-detail/sales-item-composition-detail.component';
-
+import { ShopEditComponent } from './shop-edit/shop-edit.component';
 import { SalesItemCompositionEditComponent } from './sales-item-composition-edit/sales-item-composition-edit.component';
 import { ShopListComponent } from './shop-list/shop-list.component';
 import { ShopDetailComponent } from './shop-detail/shop-detail.component';
@@ -45,7 +45,7 @@ const routes: Routes = [
   { path: 'sales-item-composition-create', component: SalesItemCompositionEditComponent },
   { path: 'shop-list', component: ShopListComponent },
   { path: 'shop-detail/:id', component: ShopDetailComponent },
-  { path: 'shop-create', component: ShopListComponent },
+  { path: 'shop-create', component: ShopEditComponent },
   { path: 'custom-group-list', component: CustomGroupListComponent },
   { path: 'custom-group-edit/:id', component: CustomGroupEditComponent,  }, 
   { path: 'custom-group-create', component: CustomGroupEditComponent, },

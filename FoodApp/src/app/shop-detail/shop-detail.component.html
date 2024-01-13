@@ -1,17 +1,17 @@
-<div *ngIf="shop" class="shop-details">
+<div class="shop-detail-container" *ngIf="shop">
   <h2>{{ shop.name }}</h2>
-  
-
-  <h3>Salgsartikler</h3>
-  <ul>
-    <li *ngFor="let item of salesItems">{{ item.name }}</li>
-  </ul>
-
-  <h3>Sammensætninger</h3>
-  <ul>
-    <li *ngFor="let comp of compositions">
-      {{ comp.parentItemId }} - {{ comp.childItemId }}
-      <!-- Tilføj yderligere detaljer her -->
-    </li>
-  </ul>
+  <img [src]="getFullImagePath(shop.imageUrl)" alt="{{ shop.name }}" class="shop-image">
+  <div class="sales-items">
+    <h3>Produkter</h3>
+    <div class="item-list">
+      <div *ngFor="let item of salesItems" class="item-card">
+        <img [src]="getFullImagePath(item.imageUrl)" alt="{{ item.name }}" class="item-image">
+        <div class="item-info">
+          <h4>{{ item.name }}</h4>
+          <p>Pris: {{ item.basePrice }} kr</p>
+          <button (click)="addSalesItemToBasket(item)">Tilføj til Kurv</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

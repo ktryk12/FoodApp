@@ -14,13 +14,16 @@
            alt="{{ childItem.name }}">
 
       <!-- Liste over tilgængelige ingredienser for hvert ChildItem -->
-      <div *ngIf="availableIngredients[childItem.id]">
+      <div *ngIf="availableIngredients[childItem.id]?.length">
         <h4>Valgbare Ingredienser:</h4>
         <ul>
           <li *ngFor="let ingredient of availableIngredients[childItem.id]">
+            <img [src]="getFullImagePath(ingredient.ingredient.imageUrl)"
+                 alt="{{ ingredient.ingredient.name }}"
+                 class="ingredient-image">
             <input type="checkbox"
                    [checked]="ingredient.count > 0"
-                   (change)="ingredient.count > 0 ? removeIngredientFromChildItem(childItem.id, ingredient.ingredientId) : addIngredientToChildItem(childItem.id, ingredient.ingredientId)">
+                   (change)="toggleIngredient(childItem.id, ingredient.ingredientId)">
             {{ ingredient.ingredient.name }} ({{ ingredient.ingredient.ingredientPrice | currency }})
           </li>
         </ul>
@@ -33,3 +36,4 @@
 
   <button (click)="goBack()">Tilbage til Liste</button>
 </div>
+

@@ -1,0 +1,18 @@
+<!-- shop-edit.component.html -->
+<form (ngSubmit)="onSubmit()">
+  <div>
+    <label for="name">Shop Name:</label>
+    <input type="text" id="name" [(ngModel)]="shop.name" name="name" required>
+  </div>
+  <div>
+    <label for="location">Shop Location:</label>
+    <input type="text" id="location" [(ngModel)]="shop.location" name="location" required>
+  </div>
+  <div>
+    <label for="image">Shop Image:</label>
+    <input type="file" id="image" (change)="onFileSelected($event)">
+  </div>
+  <button type="submit">Create Shop</button>
+  <button type="button" (click)="deleteShop(shop.id)">Delete Shop</button>
+</form>
+

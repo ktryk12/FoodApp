@@ -5,11 +5,19 @@
 
   <h3>Vælg Ingredienser:</h3>
   <div *ngFor="let ingredient of ingredientOptions">
-    <span>{{ ingredient.ingredient?.name }}</span>
+    <!-- Visning af Ingrediensbillede -->
+    <img [src]="getFullImagePath(ingredient.ingredient?.imageUrl)"
+         alt="{{ ingredient.ingredient?.name ?? 'Ingen Navn' }}">
+
+    <!-- Ingrediensnavn og Pris -->
+    <span>{{ ingredient.ingredient?.name ?? 'Ingen Navn' }} ({{ ingredient.ingredient?.ingredientPrice | currency }})</span>
+
+    <!-- Knapper til at justere antallet af Ingredienser -->
     <div>
-      <button (click)="removeIngredient(ingredient.ingredientId)" [disabled]="ingredient.count <= ingredient.min">-</button>
-      <span>{{ ingredient.count }}</span>
-      <button (click)="addIngredient(ingredient.ingredientId)" [disabled]="ingredient.count >= ingredient.max">+</button>
+      <button (click)="removeIngredient(ingredient.ingredientId)">-</button>
+      <span *ngIf="ingredient.count >= 0">{{ ingredient.count }}x {{ ingredient.ingredient?.name }}</span>
+      <span *ngIf="ingredient.count < 0">Fjernet: {{ ingredient.ingredient?.name }}</span>
+      <button (click)="addIngredient(ingredient.ingredientId)">+</button>
     </div>
   </div>
 

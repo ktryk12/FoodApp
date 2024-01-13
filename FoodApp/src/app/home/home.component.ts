@@ -28,11 +28,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  navigateToShop(shopId: number): void {
-    console.log(`Navigerer til butik med id: ${shopId}`);
-    // Opdater denne navigation efter behov
-    this.router.navigate(['/shop', shopId]);
+  navigateToShopDetails(shopId: number): void {
+    this.router.navigate(['/shop-detail', shopId]);
   }
+  
 }
 
 

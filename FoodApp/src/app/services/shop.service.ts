@@ -20,12 +20,13 @@ export class ShopService {
     return this.http.get<Shop>(`${this.apiUrl}/${id}`);
   }
 
-  createShop(shop: Shop): Observable<Shop> {
-    return this.http.post<Shop>(this.apiUrl, shop);
+  createShop(shopData: FormData): Observable<Shop> {
+    return this.http.post<Shop>(this.apiUrl, shopData);
   }
 
-  updateShop(id: number, shop: Shop): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, shop);
+
+  updateShop(id: number, shopData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, shopData);
   }
 
   deleteShop(id: number): Observable<any> {
@@ -38,5 +39,9 @@ export class ShopService {
 
   removeSalesItemFromShop(shopId: number, salesItemId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${shopId}/salesItem/${salesItemId}`);
+  }
+
+  getSalesItemIdsByShopId(shopId: number): Observable<number[]> {
+    return this.http.get<number[]>(`${this.apiUrl}/${shopId}/salesitems`);
   }
 }

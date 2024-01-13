@@ -1,32 +1,49 @@
-.shop-details {
-  max-width: 100%; /* Sørg for, at shop-details ikke overskrider skærmbredden */
-  padding: 1rem; /* Tilføj padding for at give indholdet noget plads */
+.shop-detail-container {
+  max-width: 800px;
+  margin: auto;
 }
 
-.combos-list, .product-list {
-  list-style: none; /* Fjerner listepunkter */
-  padding: 0; /* Fjerner standard padding fra lister */
-  margin: 0; /* Fjerner standard margin fra lister */
+.shop-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
 }
 
-  .combos-list li, .product-list li {
-    margin-bottom: 1rem; /* Tilføjer lidt plads mellem listeelementerne */
+.sales-items .item-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.item-card {
+  border: 1px solid #ddd;
+  padding: 10px;
+  width: calc(33.333% - 20px); /* 3 items per row minus gap */
+}
+
+.item-image {
+  width: 100%;
+  height: auto;
+}
+
+.item-info h4 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.item-info p {
+  margin: 0;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+  button:hover {
+    background-color: #0056b3;
   }
-
-.image-container {
-  width: 100%; /* Sætter en maksimal bredde for billedcontaineren */
-  overflow: hidden; /* Forhindrer billeder i at gå udenfor containeren */
-}
-
-  .image-container img {
-    max-width: 100%; /* Gør billederne responsive */
-    height: auto; /* Bevarer billedernes aspektforhold */
-  }
-
-@media (max-width: 768px) {
-  .combos-list h2, .product-list h2 {
-    font-size: 1.5rem; /* Reducerer skriftstørrelsen på mindre skærme */
-  }
-
-}
-

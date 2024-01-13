@@ -3,10 +3,11 @@ export class Shop {
   name!: string;
   location!: string;
   type!: ShopType;
+  imageUrl?: string;
 }
 
   export enum ShopType {
-  Resturant,
+  Restaurant,
   FoodStand,
   CandyStore
 }

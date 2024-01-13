@@ -49,8 +49,7 @@ export class IngredientService {
   }
 
   getIngredientsWithDetailsBySalesItemId(salesItemId: number): Observable<IngredientSalesItemDetails[]> {
-    // Ændre URL'en til at matche backend-API'en
-    return this.http.get<IngredientSalesItemDetails[]>(`https://localhost:7218/api/Ingredient/DetailsBySalesItemId/${salesItemId}`).pipe(
+     return this.http.get<IngredientSalesItemDetails[]>(`https://localhost:7218/api/Ingredient/DetailsBySalesItemId/${salesItemId}`).pipe(
       tap(_ => console.log(`Fetched ingredient details for salesItemId=${salesItemId}`)),
       catchError(this.handleError<IngredientSalesItemDetails[]>('getIngredientsWithDetailsBySalesItemId', []))
     );
