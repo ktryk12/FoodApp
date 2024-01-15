@@ -16,36 +16,39 @@
     <div *ngIf="isSalesItem(basketItem.item)" class="customizations">
       <h4>Tilpasninger:</h4>
       <ul>
-        <li *ngFor="let customization of basketItem.customizations">
-          <span *ngIf="customization.ingredient">{{ customization.ingredient.name }} ({{ customization.count }})</span>
-          <div class="ingredient-controls">
-            <button (click)="addIngredient(basketItem.item.id, customization.ingredientId)">+</button>
-            <button (click)="removeIngredient(basketItem.item.id, customization.ingredientId)">-</button>
-          </div>
-        </li>
+        <ul>
+          <li *ngFor="let ingredient of availableIngredients[basketItem.item.id]">
+            {{ ingredient.ingredient.name }} - Antall: {{ ingredient.count }}
+            <div class="ingredient-controls">
+              <button (click)="addIngredient(basketItem.item.id, ingredient.ingredientId)">+</button>
+              <button (click)="removeIngredient(basketItem.item.id, ingredient.ingredientId)">-</button>
+            </div>
+          </li>
+        </ul>
       </ul>
-    </div>
+   
 
     <!-- Tilpasninger for sammensatte menuer (SalesItemComposition) -->
     <div *ngIf="isSalesItemComposition(basketItem.item)">
       <h4>Menu Tilpasninger:</h4>
-      <div *ngFor="let childItem of basketItem.item.childItems">
-        <h5>{{ childItem.name }}</h5>
-        <ul>
-          <li *ngFor="let ingredient of availableIngredients[childItem.id]">
-            <span>{{ingredient.ingredient.name }} ({{ ingredient.count }})</span>
-            <div class="ingredient-controls">
-              <button (click)="onAddIngredientToChild(childItem.id, ingredient.ingredientId)">+</button>
-              <button (click)="onRemoveIngredientFromChild(childItem.id, ingredient.ingredientId)">-</button>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
+      <ng-container *ngIf="basketItem.item as compositeItem">
+        <div *ngFor="let childItem of compositeItem.childItems">
+          <h5>{{ childItem.name }}</h5>
+          <ul>
+            <li *ngFor="let ingredient of availableIngredients[childItem.id]">
+              <span>{{ingredient.ingredient.name }} ({{ ingredient.count }})</span>
+              <div class="ingredient-controls">
+                <button (click)="onAddIngredientToChild(childItem.id, ingredient.ingredientId)">+</button>
+                <button (click)="onRemoveIngredientFromChild(childItem.id, ingredient.ingredientId)">-</button>
+              </div>
+            </li>
+          </ul>
+        </div>
+   
 
-  </div>
-  <div class="total-price">
-    <p>Total Pris: {{ getTotalPrice() | currency }}</p>
-    <button (click)="clearBasket()">Tøm Kurv</button>
-  </div>
-</div>
+
+    <div class="total-price">
+      <p>Total Pris: {{ getTotalPrice() | currency }}</p>
+      <button (click)="clearBasket()">Tøm Kurv</button>
+    </div>
+  

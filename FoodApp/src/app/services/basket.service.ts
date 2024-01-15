@@ -1,163 +1,81 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, forkJoin, of, throwError } from 'rxjs';
 import { BasketItem } from '../dtos/basket-item.dto';
-import { SalesItem } from '../dtos/sales-item.dto';
-import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
-import { SalesItemCompositionWithDetails } from '../dtos/sales-item-composition-with-details.dto';
 import { IngredientSalesItem } from '../dtos/ingredient-sales-item.dto';
 import { IngredientSalesItemDetails } from '../dtos/ingredient-sales-item-details.dto';
-import { IngredientSalesItemService } from '../services/ingredient-sales-item.service';
-import { catchError, tap } from 'rxjs/operators';
-import { IngredientService } from './ingredient.service';
 import { Ingredient } from '../dtos/ingredient.dto';
-import { SalesItemCompositionService } from '../services/sales-item-composition.service';
 
-const defaultIngredient: Ingredient = {
-  id: 0,
-  name: 'Standard Ingredient',
-  imageUrl: 'default-image-url',
-  ingredientPrice: 0
+const defaultIngredient: IngredientSalesItemDetails = {
+  // Sæt standardværdierne for din defaultIngredient her
+  salesItemId: 0,
+  ingredientId: 0,
+  min: 0,
+  max: 0,
+  count: 0,
+  standardCount: 0,
+  ingredient: {
+    id: 0,
+    name: 'Standard Ingredient',
+    imageUrl: 'default-image-url',
+    ingredientPrice: 0
+  }
 };
+
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class BasketService {
   private basketItemsSource = new BehaviorSubject<BasketItem[]>([]);
   public basketItems$ = this.basketItemsSource.asObservable();
-  private availableIngredientsSource = new BehaviorSubject<{ [salesItemId: number]: IngredientSalesItemDetails[] }>({});
-  availableIngredients$ = this.availableIngredientsSource.asObservable();
-  private compositionDetailsSource = new BehaviorSubject<SalesItemCompositionWithDetails | null>(null);
-  compositionDetails$ = this.compositionDetailsSource.asObservable();
-  compositionWithDetails?: SalesItemCompositionWithDetails;
-  availableIngredients: { [childItemId: number]: IngredientSalesItemDetails[] } = {};
+  
+
   constructor(
 
-    private ingredientSalesItemService: IngredientSalesItemService,
-    private ingredientService: IngredientService,
-    private salesItemCompositionService: SalesItemCompositionService
+   
   ) { }
+  
 
   // Tilføj en SalesItem til kurven
   // Adjust the addToBasket method to handle Observable<number>
-
   addToBasket(item: BasketItem, additionalCustomizations?: IngredientSalesItem[]): void {
     const currentBasketItems = this.basketItemsSource.value;
 
-    // Tilføj yderligere tilpasninger til item
+    console.log('Current basket items before adding:', currentBasketItems);
+
+    // Opret en kopi af item
+    const itemCopy: BasketItem = { ...item };
+
+    // Tilføj yderligere tilpasninger til itemCopy
     if (additionalCustomizations) {
-      item.customizations = [...(item.customizations || []), ...additionalCustomizations];
+      if (!itemCopy.customizations) {
+        itemCopy.customizations = [];
+      }
+      itemCopy.customizations.push(...additionalCustomizations);
+      console.log('Adding customizations:', additionalCustomizations);
     }
 
     // Genberegner totalprisen inklusive tilpasninger
-    item.totalPrice = this.calculateBasketItemPrice(item);
+    itemCopy.totalPrice = this.calculateBasketItemPrice(itemCopy);
+    console.log('Updated item with customizations:', itemCopy);
 
-    // Håndtering af SalesItemComposition
-    if ('id' in item.item && item.item instanceof SalesItemComposition) {
-      const compositionId = item.item.id;
-
-      // Her bruger vi nu korrekt Observable med subscribe
-      this.loadCompositionWithDetails(compositionId).subscribe((compositionDetails: SalesItemCompositionWithDetails) => {
-        if (compositionDetails) {
-          // Opdater item med kompositionsdetaljer
-          item.item = compositionDetails;
-
-          // For hvert childItem, indlæs tilgængelige ingredienser
-          compositionDetails.childItems?.forEach(childItem => {
-            this.loadAvailableIngredients(childItem.id);
-          });
-        }
-      });
-    }
-
-    const updatedBasketItems = [...currentBasketItems, item];
-    this.basketItemsSource.next(updatedBasketItems);
+    // Opdaterer basketItems med den nye vare
+    this.basketItemsSource.next([...currentBasketItems, itemCopy]);
+    console.log('Updated basket items after adding:', this.basketItemsSource.value);
   }
 
 
 
-
-
-  loadAvailableIngredients(salesItemId: number): void {
-    this.ingredientService.getIngredientsWithDetailsBySalesItemId(salesItemId)
-      .subscribe(
-        ingredients => {
-          console.log(`Ingredienser modtaget for salesItemId ${salesItemId}:`, ingredients);  // Log-udtalelse tilføjet
-          const currentOptions = this.availableIngredientsSource.value;
-          currentOptions[salesItemId] = ingredients;
-          this.availableIngredientsSource.next(currentOptions);
-        },
-        error => {
-          console.error('Error loading ingredients for salesItemId:', salesItemId, error);
-          console.log(`Fejl ved indlæsning af ingredienser for salesItemId ${salesItemId}:`, error);  // Log-udtalelse tilføjet
-        }
-      );
-  }
-  loadCompositionWithDetails(parentItemId: number): Observable<SalesItemCompositionWithDetails> {
-    return this.salesItemCompositionService.getCompositionWithDetails(parentItemId)
-      .pipe(
-        tap((compositionDetails) => {
-          console.log(`Kompositionsdetaljer modtaget for parentItemId ${parentItemId}:`, compositionDetails);
-          if (compositionDetails) {
-            compositionDetails.childItems?.forEach(childItem => {
-              this.loadAvailableIngredients(childItem.id);
-            });
-          } else {
-            console.error('Composition details are missing');
-          }
-        }),
-        catchError(error => {
-          console.error('Error fetching composition details', error);
-          console.log(`Fejl ved indhentning af kompositionsdetaljer for parentItemId ${parentItemId}:`, error);
-          return throwError(() => new Error('Error fetching composition details'));
-        })
-      );
-  }
-
-  loadAvailableIngredientsForComposition(compositionDetails: SalesItemCompositionWithDetails): void {
-    compositionDetails.childItems?.forEach(childItem => {
-      this.ingredientService.getIngredientsWithDetailsBySalesItemId(childItem.id).subscribe(
-        ingredients => {
-          console.log(`Ingredienser for childItem ${childItem.id} modtaget:`, ingredients);
-          this.availableIngredients[childItem.id] = ingredients.map(ingredient => ({
-            ...ingredient,
-            count: 0
-          }));
-        },
-        error => {
-          console.error(`Error loading ingredients for childItem ${childItem.id}`, error);
-          console.log(`Fejl ved indlæsning af ingredienser for childItem ${childItem.id}:`, error);
-        }
-      );
-    });
-  }
-
+  
    // This method updates the entire basket with a new array of BasketItems.
   public updateBasketItems(newItems: BasketItem[]): void {
     this.basketItemsSource.next(newItems);
   }
      
-  getIngredientsForItem(salesItemId: number): Observable<IngredientSalesItemDetails[]> {
-    return this.ingredientService.getIngredientsWithDetailsBySalesItemId(salesItemId).pipe(
-      tap(items => console.log(`Received ingredient details for salesItemId=${salesItemId}:`, items)),
-      catchError((error: any) => {
-        console.error('Error fetching ingredient details', error);
-        return throwError(error);
-      })
-    );
+ 
 
-  }
-
-  private toDetails(item: IngredientSalesItem): IngredientSalesItemDetails {
-    return {
-      salesItemId: item.salesItemId,
-      ingredientId: item.ingredientId,
-      min: item.min,
-      max: item.max,
-      count: item.count,
-      standardCount: item.standardCount,
-      ingredient: item.ingredient || defaultIngredient
-    };
-  }
+  
    
 
 
@@ -195,27 +113,54 @@ export class BasketService {
   }
 
   addIngredientToBasketItem(basketItemId: number, ingredientId: number): void {
+    console.log(`addIngredientToBasketItem: basketItemId=${basketItemId}, ingredientId=${ingredientId}`);
+
     const basketItem = this.findBasketItemById(basketItemId);
     if (basketItem) {
-      let ingredient = basketItem.customizations?.find(ing => ing.ingredientId === ingredientId);
+      if (!basketItem.customizations) {
+        basketItem.customizations = [];
+      }
+      let ingredient = basketItem.customizations.find(ing => ing.ingredientId === ingredientId);
+      console.log('Found ingredient before increment:', ingredient);
+
       if (ingredient && ingredient.count < ingredient.max) {
         ingredient.count++;
+        console.log('Updated ingredient count:', ingredient.count);
+
         this.calculateBasketItemPrice(basketItem); // Genberegner totalprisen
       }
     }
   }
 
   removeIngredientFromBasketItem(basketItemId: number, ingredientId: number): void {
+    console.log(`removeIngredientFromBasketItem: basketItemId=${basketItemId}, ingredientId=${ingredientId}`);
+
     const basketItem = this.findBasketItemById(basketItemId);
-    if (basketItem) {
-      let ingredient = basketItem.customizations?.find(ing => ing.ingredientId === ingredientId);
-      if (ingredient) {
+    if (basketItem && basketItem.customizations) {
+      // Find ingrediensen i customizations-arrayet
+      const ingredientIndex = basketItem.customizations.findIndex(ing => ing.ingredientId === ingredientId);
+
+      if (ingredientIndex !== -1) {
+        const ingredient = basketItem.customizations[ingredientIndex];
+        console.log('Found ingredient before decrement:', ingredient);
+
         // Tillader at reducere antallet yderligere, muligvis til under standardantal
-        ingredient.count--;
-        this.calculateBasketItemPrice(basketItem); // Genberegner totalprisen
+        if (ingredient.count > 0) {
+          ingredient.count--;
+          console.log('Updated ingredient count:', ingredient.count);
+
+          this.calculateBasketItemPrice(basketItem); // Genberegner totalprisen
+        }
+
+        // Fjern ingrediensen, hvis count er 0
+        if (ingredient.count === 0) {
+          basketItem.customizations.splice(ingredientIndex, 1);
+        }
       }
     }
   }
+
+
 
   calculateBasketItemPrice(basketItem: BasketItem): number {
     let basePrice = 0;

@@ -49,8 +49,15 @@ export class IngredientService {
   }
 
   getIngredientsWithDetailsBySalesItemId(salesItemId: number): Observable<IngredientSalesItemDetails[]> {
-     return this.http.get<IngredientSalesItemDetails[]>(`https://localhost:7218/api/Ingredient/DetailsBySalesItemId/${salesItemId}`).pipe(
-      tap(_ => console.log(`Fetched ingredient details for salesItemId=${salesItemId}`)),
+    console.log(`Attempting to fetch ingredient details for salesItemId=${salesItemId}`);
+
+    return this.http.get<IngredientSalesItemDetails[]>(`https://localhost:7218/api/Ingredient/DetailsBySalesItemId/${salesItemId}`).pipe(
+      tap(response => {
+        console.log(`Fetched ingredient details for salesItemId=${salesItemId}:`, response);
+        if (!response || response.length === 0) {
+          console.log(`No ingredients found for salesItemId=${salesItemId}`);
+        }
+      }),
       catchError(this.handleError<IngredientSalesItemDetails[]>('getIngredientsWithDetailsBySalesItemId', []))
     );
   }

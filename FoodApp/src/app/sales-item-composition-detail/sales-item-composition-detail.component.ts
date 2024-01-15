@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SalesItemCompositionService } from '../services/sales-item-composition.service';
+import { ItemDetailsService } from '../services/item-details.service';
 import { SalesItemCompositionWithDetails } from '../dtos/sales-item-composition-with-details.dto';
-import { IngredientService } from '../services/ingredient.service';
+import { IngredientSalesItemDetails } from '../dtos/ingredient-sales-item-details.dto';
+import { IngredientSalesItem } from '../dtos/ingredient-sales-item.dto';
 import { BasketService } from '../services/basket.service';
 import { BasketItem } from '../dtos/basket-item.dto';
-import { IngredientSalesItem } from '../dtos/ingredient-sales-item.dto';
-import { IngredientSalesItemDetails } from '../dtos/ingredient-sales-item-details.dto';
 
 @Component({
   selector: 'app-sales-item-composition-detail',
@@ -20,8 +19,7 @@ export class SalesItemCompositionDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private salesItemCompositionService: SalesItemCompositionService,
-    private ingredientService: IngredientService,
+    private itemDetailsService: ItemDetailsService,
     private basketService: BasketService
   ) { }
 
@@ -35,7 +33,7 @@ export class SalesItemCompositionDetailComponent implements OnInit {
   }
 
   loadCompositionWithDetails(parentItemId: number): void {
-    this.salesItemCompositionService.getCompositionWithDetails(parentItemId).subscribe(
+    this.itemDetailsService.getSalesItemCompositionDetails(parentItemId).subscribe(
       (compositionDetails) => {
         if (compositionDetails) {
           this.compositionWithDetails = compositionDetails;
@@ -50,18 +48,18 @@ export class SalesItemCompositionDetailComponent implements OnInit {
 
   loadAvailableIngredients(compositionDetails: SalesItemCompositionWithDetails): void {
     compositionDetails.childItems?.forEach(childItem => {
-      this.ingredientService.getIngredientsWithDetailsBySalesItemId(childItem.id).subscribe(
+      this.itemDetailsService.getIngredientsForItem(childItem.id).subscribe(
         ingredients => {
-          // Tilføjer en 'count' egenskab til hver ingrediens i listen
-          this.availableIngredients[childItem.id] = ingredients.map(ingredient => ({
-            ...ingredient, // Kopierer alle eksisterende egenskaber fra den oprindelige ingrediens
-            count: 0 // Tilføjer en ny egenskab 'count' og initialiserer den til 0
-          }));
+          this.availableIngredients[childItem.id] = ingredients.length > 0
+            ? ingredients.map(ingredient => ({ ...ingredient, count: 0 }))
+            : []; // Initialiser til tom array, hvis ingen ingredienser
         },
         error => console.error(`Error loading ingredients for childItem ${childItem.id}`, error)
       );
     });
   }
+
+
   toggleIngredient(childItemId: number, ingredientId: number): void {
     const ingredient = this.availableIngredients[childItemId].find(ing => ing.ingredientId === ingredientId);
     if (ingredient) {

@@ -1,10 +1,10 @@
 // sales-item-composition.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
 import { SalesItemCompositionWithDetails } from '../dtos/sales-item-composition-with-details.dto';
-import { SalesItem } from '../dtos/sales-item.dto';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,25 @@ export class SalesItemCompositionService {
     return this.http.get<SalesItemComposition[]>(`${this.apiUrl}/parent/${parentItemId}`);
   }
   getCompositionWithDetails(parentItemId: number): Observable<SalesItemCompositionWithDetails> {
-    return this.http.get<SalesItemCompositionWithDetails>(`${this.apiUrl}/Details/${parentItemId}`);
-  }
+    console.log(`Attempting to fetch details for SalesItemComposition with parentItemId=${parentItemId}`);
 
+    return this.http.get<SalesItemCompositionWithDetails>(`${this.apiUrl}/Details/${parentItemId}`).pipe(
+      tap(response => {
+        console.log(`Fetched details for SalesItemComposition with parentItemId=${parentItemId}:`, response);
+        if (!response) {
+          console.log(`No details found for SalesItemComposition with parentItemId=${parentItemId}`);
+        }
+      }),
+      catchError(error => {
+        console.error(`Error fetching details for SalesItemComposition with parentItemId=${parentItemId}:`, error);
+        return throwError(() => error);
+      })
+    );
+  }
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
 }
