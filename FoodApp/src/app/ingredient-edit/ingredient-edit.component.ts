@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IngredientService } from '../services/ingredient.service';
 import { Ingredient } from '../dtos/ingredient.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-ingredient-edit',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './ingredient-edit.component.html',
   styleUrls: ['./ingredient-edit.component.css']
 })

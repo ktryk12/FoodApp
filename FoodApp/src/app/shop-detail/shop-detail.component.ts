@@ -5,10 +5,15 @@ import { SalesItemService } from '../services/sales-item.service';
 import { BasketService } from '../services/basket.service';
 import { Shop } from '../dtos/shop.dto';
 import { SalesItem } from '../dtos/sales-item.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { forkJoin } from 'rxjs';
+
 
 @Component({
   selector: 'app-shop-detail',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './shop-detail.component.html',
   styleUrls: ['./shop-detail.component.css']
 })

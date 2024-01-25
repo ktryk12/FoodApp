@@ -4,9 +4,14 @@ import { OrderService } from '../services/order.service';
 import { OrderlineService } from '../services/orderline.service';
 import { OrderData } from '../dtos/order-data.dto'; 
 import { Orderline } from '../dtos/orderline.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-order-detail',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './order-detail.component.html',
   styleUrls: ['./order-detail.component.css']
 })

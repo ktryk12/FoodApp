@@ -2,12 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { ShopService } from '../services/shop.service';
 import { Shop } from '../dtos/shop.dto';
 import { ShopType } from '../dtos/shop.dto';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+
+
 
 @Component({
   selector: 'app-shop-edit',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './shop-edit.component.html',
   styleUrls: ['./shop-edit.component.css']
 })
+
 export class ShopEditComponent implements OnInit {
   shop: Shop = { id: 0, name: '', location: '', type: ShopType.Restaurant, imageUrl: '' };
 

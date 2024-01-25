@@ -7,9 +7,15 @@ import { SalesItemCompositionWithDetails } from '../dtos/sales-item-composition-
 import { IngredientSalesItemDetails } from '../dtos/ingredient-sales-item-details.dto';
 import { SalesItem } from '../dtos/sales-item.dto';
 import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-basket',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './basket.component.html',
   styleUrls: ['./basket.component.css']
 })

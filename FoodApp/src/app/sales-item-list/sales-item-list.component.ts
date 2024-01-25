@@ -5,9 +5,15 @@ import { Router } from '@angular/router';
 import { BasketService } from '../services/basket.service';
 import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
 import { BasketItem } from '../dtos/basket-item.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-sales-item-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sales-item-list.component.html',
   styleUrls: ['./sales-item-list.component.css']
 })

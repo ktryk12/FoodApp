@@ -2,9 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SalesItemService } from '../services/sales-item.service';
 import { SalesItem } from '../dtos/sales-item.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-sales-item-edit',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sales-item-edit.component.html',
   styleUrls: ['./sales-item-edit.component.css']
 })

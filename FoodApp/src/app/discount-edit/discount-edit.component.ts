@@ -2,9 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DiscountService } from '../services/discount.service';
 import { Discount } from '../dtos/discount.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+
+
 
 @Component({
   selector: 'app-discount-edit',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './discount-edit.component.html',
   styleUrls: ['./discount-edit.component.css']
 })

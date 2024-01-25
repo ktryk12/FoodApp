@@ -6,9 +6,14 @@ import { IngredientSalesItem } from '../dtos/ingredient-sales-item.dto';
 import { SalesItemService } from '../services/sales-item.service';
 import { IngredientSalesItemService } from '../services/ingredient-sales-item.service';
 import { IngredientSelection } from '../dtos/ingredient-selection.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-ingredient-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './ingredient-list.component.html',
   styleUrls: ['./ingredient-list.component.css']
 })

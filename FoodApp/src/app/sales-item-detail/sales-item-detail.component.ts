@@ -8,10 +8,15 @@ import { SalesItem } from '../dtos/sales-item.dto';
 import { BasketService } from '../services/basket.service';
 import { BasketItem } from '../dtos/basket-item.dto';
 import { IngredientService } from '../services/ingredient.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
   selector: 'app-sales-item-detail',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sales-item-detail.component.html',
   styleUrls: ['./sales-item-detail.component.css']
 })

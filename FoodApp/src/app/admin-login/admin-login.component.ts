@@ -1,10 +1,15 @@
 // admin-login.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-admin-login',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './admin-login.component.html',
   styleUrls: ['./admin-login.component.css']
 })

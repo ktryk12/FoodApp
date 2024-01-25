@@ -6,9 +6,15 @@ import { IngredientSalesItemDetails } from '../dtos/ingredient-sales-item-detail
 import { IngredientSalesItem } from '../dtos/ingredient-sales-item.dto';
 import { BasketService } from '../services/basket.service';
 import { BasketItem } from '../dtos/basket-item.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-sales-item-composition-detail',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sales-item-composition-detail.component.html',
   styleUrls: ['./sales-item-composition-detail.component.css']
 })

@@ -7,9 +7,14 @@ import { BasketService } from '../services/basket.service';
 import { SalesItemCompositionService } from '../services/sales-item-composition.service';
 import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
 import { BasketItem } from '../dtos/basket-item.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-sales-item-composition-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sales-item-composition-list.component.html',
   styleUrls: ['./sales-item-composition-list.component.css']
 })

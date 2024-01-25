@@ -3,9 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SalesItemService } from '../services/sales-item.service';
 import { SalesItem } from '../dtos/sales-item.dto';
 import { SalesItemComposition } from '../dtos/sales-item-composition.dto';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+
 
 @Component({
   selector: 'app-sales-item-composition-edit',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './sales-item-composition-edit.component.html',
   styleUrls: ['./sales-item-composition-edit.component.css']
 })
